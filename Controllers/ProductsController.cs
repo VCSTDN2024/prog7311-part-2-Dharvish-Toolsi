@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PROG7311_POE_Part_2.Data;
 using PROG7311_POE_Part_2.Models;
 
 namespace PROG7311_POE_Part_2.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly PROG7311_POE_Part_2Context _context;
+        private readonly DBConnect _context;
 
-        public ProductsController(PROG7311_POE_Part_2Context context)
+        public ProductsController(DBConnect context)
         {
             _context = context;
         }
@@ -22,7 +16,16 @@ namespace PROG7311_POE_Part_2.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            List<Product> product = new List<Product>();
+            try
+            {
+                product = await _context.Products.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return View(product);
         }
 
         // GET: Products/Details/5
@@ -33,7 +36,7 @@ namespace PROG7311_POE_Part_2.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -54,7 +57,7 @@ namespace PROG7311_POE_Part_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Category,Farm,ProductionDate")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Category,Farm,ProductionDate,FarmerId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +76,7 @@ namespace PROG7311_POE_Part_2.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -86,7 +89,7 @@ namespace PROG7311_POE_Part_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,Farm,ProductionDate")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,Farm,ProductionDate,FarmerId")] Product product)
         {
             if (id != product.Id)
             {
@@ -124,7 +127,7 @@ namespace PROG7311_POE_Part_2.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -139,10 +142,10 @@ namespace PROG7311_POE_Part_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
-                _context.Product.Remove(product);
+                _context.Products.Remove(product);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +154,7 @@ namespace PROG7311_POE_Part_2.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

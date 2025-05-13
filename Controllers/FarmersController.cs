@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PROG7311_POE_Part_2.Data;
 using PROG7311_POE_Part_2.Models;
 
 namespace PROG7311_POE_Part_2.Controllers
 {
     public class FarmersController : Controller
     {
-        private readonly PROG7311_POE_Part_2Context _context;
+        private readonly DBConnect _context;
 
-        public FarmersController(PROG7311_POE_Part_2Context context)
+        public FarmersController(DBConnect context)
         {
             _context = context;
         }
@@ -22,7 +16,16 @@ namespace PROG7311_POE_Part_2.Controllers
         // GET: Farmers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Farmer.ToListAsync());
+            List<Farmer> farmers = new List<Farmer>();
+            try
+            {
+                farmers = await _context.Farmers.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return View(farmers);
         }
 
         // GET: Farmers/Details/5
@@ -33,7 +36,7 @@ namespace PROG7311_POE_Part_2.Controllers
                 return NotFound();
             }
 
-            var farmer = await _context.Farmer
+            var farmer = await _context.Farmers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (farmer == null)
             {
@@ -54,7 +57,7 @@ namespace PROG7311_POE_Part_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,Farm")] Farmer farmer)
+        public async Task<IActionResult> Create([Bind("Id,Name,Surname,Farm,Password")] Farmer farmer)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +76,7 @@ namespace PROG7311_POE_Part_2.Controllers
                 return NotFound();
             }
 
-            var farmer = await _context.Farmer.FindAsync(id);
+            var farmer = await _context.Farmers.FindAsync(id);
             if (farmer == null)
             {
                 return NotFound();
@@ -124,7 +127,7 @@ namespace PROG7311_POE_Part_2.Controllers
                 return NotFound();
             }
 
-            var farmer = await _context.Farmer
+            var farmer = await _context.Farmers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (farmer == null)
             {
@@ -139,10 +142,10 @@ namespace PROG7311_POE_Part_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var farmer = await _context.Farmer.FindAsync(id);
+            var farmer = await _context.Farmers.FindAsync(id);
             if (farmer != null)
             {
-                _context.Farmer.Remove(farmer);
+                _context.Farmers.Remove(farmer);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +154,7 @@ namespace PROG7311_POE_Part_2.Controllers
 
         private bool FarmerExists(int id)
         {
-            return _context.Farmer.Any(e => e.Id == id);
+            return _context.Farmers.Any(e => e.Id == id);
         }
     }
 }
