@@ -37,15 +37,18 @@
                 <input asp-for="FarmerId" class="form-control" />
                 <span asp-validation-for="FarmerId" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-action="Index">Back to List</a>
+    <form asp-action="Index">
+        <input type="submit" value="Back to list" class="btn btn-danger" />
+    </form>
 </div>
 
 @section Scripts {
