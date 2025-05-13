@@ -14,18 +14,27 @@ namespace PROG7311_POE_Part_2.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? FarmerId)
         {
-            List<Product> product = new List<Product>();
+            List<Product> products = new List<Product>();
             try
             {
-                product = await _context.Products.ToListAsync();
+                if (FarmerId.HasValue)
+                {
+                    products = await _context.Products.Where(p => p.FarmerId == FarmerId).ToListAsync();
+                    return View(products);
+                }
+                else
+                {
+                    products = await _context.Products.ToListAsync();
+                    return View(products);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
-            return View(product);
+            return View(products);
         }
 
         // GET: Products/Details/5

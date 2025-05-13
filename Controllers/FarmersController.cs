@@ -16,6 +16,7 @@ namespace PROG7311_POE_Part_2.Controllers
         // GET: Farmers
         public async Task<IActionResult> Index()
         {
+            ViewBag.Login = false;
             List<Farmer> farmers = new List<Farmer>();
             try
             {
@@ -27,7 +28,6 @@ namespace PROG7311_POE_Part_2.Controllers
             }
             return View(farmers);
         }
-
         // GET: Farmers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -89,7 +89,7 @@ namespace PROG7311_POE_Part_2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,Farm")] Farmer farmer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Surname,Farm,Password")] Farmer farmer)
         {
             if (id != farmer.Id)
             {
