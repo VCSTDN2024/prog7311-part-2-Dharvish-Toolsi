@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using PROG7311_POE_Part_2.Data;
 namespace PROG7311_POE_Part_2
 {
     public class Program
@@ -8,9 +6,7 @@ namespace PROG7311_POE_Part_2
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<PROG7311_POE_Part_2Context>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("PROG7311_POE_Part_2Context") ?? throw new InvalidOperationException("Connection string 'PROG7311_POE_Part_2Context' not found.")));
-
+            builder.Services.AddDbContext<DBConnect>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
