@@ -9,10 +9,10 @@ using PROG7311_POE_Part_2;
 
 #nullable disable
 
-namespace PROG7311_POE_Part_2.Migrations.DBConnectMigrations
+namespace PROG7311_POE_Part_2.Migrations
 {
     [DbContext(typeof(DBConnect))]
-    [Migration("20250512171315_InitialCreate")]
+    [Migration("20250513075321_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace PROG7311_POE_Part_2.Migrations.DBConnectMigrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
