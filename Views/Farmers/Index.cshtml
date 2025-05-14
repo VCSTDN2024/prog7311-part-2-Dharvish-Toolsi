@@ -58,6 +58,7 @@
                     <form>
                         <input type="submit" value="Edit" class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id" /> |
                         <input type="submit" value="Details" class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" /> |
+                        <a class="btn btn-secondary" asp-action="DisplayProducts" asp-route-FarmerId="@item.Id">Display Products</a> |
                         <input type="submit" value="Delete" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" />
                     </form> 
                 </td>
