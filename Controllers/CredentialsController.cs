@@ -5,19 +5,20 @@ namespace PROG7311_POE_Part_2.Controllers
 {
     public class CredentialsController : Controller
     {
+        // Database.
         private readonly DBConnect _context;
-
         public CredentialsController(DBConnect context)
         {
             _context = context;
         }
+        // Login
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+        // Post Login for employee
         [HttpPost]
-        // Login for employee
         public IActionResult EmployeeLogin(Credential model)
         {
             if (ModelState.IsValid)
@@ -37,8 +38,8 @@ namespace PROG7311_POE_Part_2.Controllers
             }
             return View(model);
         }
+        // Post Login for farmer
         [HttpPost]
-        // Login for farmer
         public IActionResult FarmerLogin(Credential model)
         {
             if (ModelState.IsValid)
