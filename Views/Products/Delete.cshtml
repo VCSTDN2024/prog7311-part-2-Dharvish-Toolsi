@@ -44,10 +44,12 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="farmerId" value="@ViewContext.HttpContext.Request.Query["farmerId"]" />
         <input type="submit" value="Delete" class="btn btn-danger" />
     </form>
     <br />
     <form asp-action="Index">
+        <input type="hidden" name="farmerId" value="@ViewContext.HttpContext.Request.Query["farmerId"]" />
         <input type="submit" value="Back to List" class="btn btn-success" />
     </form>
 </div>

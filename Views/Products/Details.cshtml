@@ -42,6 +42,8 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+    <form asp-action="Index">
+        <input type="hidden" name="farmerId" value="@ViewContext.HttpContext.Request.Query["farmerId"]" />
+        <input type="submit" value="Back to list" class="btn btn-success" />
+    </form>
 </div>
